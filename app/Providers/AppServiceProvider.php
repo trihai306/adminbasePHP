@@ -25,11 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        //
-//        Filament::registerStyles([
-//            'https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css',
-//            asset('css/my-styles.css'),
-//        ]);
+        //
+        Filament::registerStyles([
+            'https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css',
+            asset('css/my-styles.css'),
+        ]);
 //        Filament::registerScripts([
 //            'https://cdn.tailwindcss.com',
 //        ], true);
