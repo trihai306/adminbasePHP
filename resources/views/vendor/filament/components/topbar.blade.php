@@ -11,7 +11,7 @@ $accountItemUrl = $accountItem?->getUrl();
 $logoutItem = $items['logout'] ?? null;
 @endphp
 <header {{ $attributes->class([
-    'filament-main-topbar sticky top-0 z-10 flex flex-col w-full shrink-0 items-center border-b bg-white',
+    'filament-main-topbar sticky top-0 z-10 flex flex-col  shrink-0 items-center border-b bg-white flex-1 px-4 mx-auto md:px-6 lg:px-8',
     'dark:bg-gray-800 dark:border-gray-700' => config('filament.dark_mode'),
 ]) }}>
     <div class="flex items-center w-full px-2 pt-3 sm:px-4 md:px-6 lg:px-8">
