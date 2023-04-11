@@ -1,4 +1,5 @@
 <x-filament::page>
+    
     <!-- The button to open modal -->
     <label for="my-modal" class="btn">open modal</label>
 
@@ -13,4 +14,5 @@
             </div>
         </div>
     </div>
+   
 </x-filament::page>

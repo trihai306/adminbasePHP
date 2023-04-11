@@ -35,7 +35,7 @@
             <div @class([
                 'filament-main-content flex-1 w-full px-4 mx-auto md:px-6 lg:px-8',
                 match ($maxContentWidth ??= config('filament.layout.max_content_width')) {
-                    null, '7xl', '' => 'max-w-7xl',
+                    null, '7xl', '' => '',
                     'xl' => 'max-w-xl',
                     '2xl' => 'max-w-2xl',
                     '3xl' => 'max-w-3xl',
@@ -54,7 +54,7 @@
             </div>
 
             <div class="filament-main-footer py-4 shrink-0">
-                <x-filament::footer />
+              
             </div>
         </div>
     </div>
