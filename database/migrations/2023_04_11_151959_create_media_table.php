@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('media', function (Blueprint $table) {
+        Schema::create(app(Curator::getMediaModel())->getTable(), function (Blueprint $table) {
             $table->id();
             $table->string('disk')->default('public');
             $table->string('directory')->default('media');
@@ -32,6 +32,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists(app(Curator::getMediaModel())->getTable());
     }
 };
