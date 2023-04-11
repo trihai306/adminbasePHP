@@ -1,3 +1,9 @@
 .header-app{
     width: 25rem;
 }
+.filament-main-topbar{
+    margin-top: 20px;
+    width: 95%;
+    margin-left: 2.5%;
+    border-radius: 10px;
+}
