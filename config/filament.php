@@ -143,7 +143,7 @@ return [
         'register' => [
             Widgets\AccountWidget::class,
             \App\Filament\Widgets\StatsOverview::class,
-            \App\Filament\Widgets\LatestUsers::class
+            \App\Filament\Widgets\ApiKey::class
         ],
     ],
 

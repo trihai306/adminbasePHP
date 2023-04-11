@@ -6,11 +6,13 @@ use App\Models\User;
 use Closure;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\BulkAction;
+
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\BulkAction;
+use Illuminate\Database\Eloquent\Collection;
 
-class LatestUsers extends BaseWidget
+class ApiKey extends BaseWidget
 {
     protected function getTableQuery(): Builder
     {
@@ -28,11 +30,18 @@ class LatestUsers extends BaseWidget
     public function getTableActions(): array
     {
         return [
-            Action::make('edit')
-                ->label('Edit post')
-                ->icon('heroicon-s-pencil')
+            Action::make('delete')
+                ->label('Delete api')
+                ->icon('heroicon-o-trash')
+                ->color('danger'),
+                Action::make('edit')
+                ->label('Edit api')
+                ->color('warning')
+                ->icon('heroicon-o-pencil')
         ];
     }
+
+   
     //tạo bluk action
     protected function getTableBulkActions(): array
     {
@@ -49,7 +58,7 @@ class LatestUsers extends BaseWidget
     {
         return [
             Action::make('create')
-                ->label('Create post')
+                ->label('Create API key')
                 ->button()
                 ->icon('heroicon-s-plus')
             ->action(function () {
