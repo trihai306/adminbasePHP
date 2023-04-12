@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ServiceResource\Pages;
-use App\Filament\Resources\ServiceResource\RelationManagers;
-use App\Models\Service;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use App\Filament\Resources\BankResource\Pages;
+use App\Filament\Resources\BankResource\RelationManagers;
+use App\Models\Bank;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Form;
@@ -14,29 +13,12 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-class ServiceResource extends Resource implements HasShieldPermissions
+
+class BankResource extends Resource
 {
-    protected static ?string $model = Service::class;
+    protected static ?string $model = Bank::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-    
-    public static function getPermissionPrefixes(): array
-    {
-        return [
-            'view',
-            'view_any',
-            'create',
-            'update',
-            'delete',
-            'delete_any',
-            'publish'
-        ];
-    }
-
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
 
     public static function form(Form $form): Form
     {
@@ -44,19 +26,18 @@ class ServiceResource extends Resource implements HasShieldPermissions
             ->schema([
                 Forms\Components\Grid::make(4)->schema([
                     Forms\Components\Card::make()->schema([
-                        Forms\Components\TextInput::make('name')
+                        Forms\Components\TextInput::make('bank_name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('money')
-                       
-                            ->numeric()
+                        Forms\Components\TextInput::make('bank_number')
+
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\FileUpload::make('image')
-                            ->required()->preserveFilenames()
-                            ->image()
-                            ->imageResizeMode('cover')
-                            ->imageCropAspectRatio('9:9')
+                        Forms\Components\TextInput::make('user_name')
+
+                            ->required()
+                            ->maxLength(255),
+
                     ])->columnSpan(3),
                     Forms\Components\Card::make()->schema([
                         Forms\Components\Select::make('status')
@@ -71,7 +52,6 @@ class ServiceResource extends Resource implements HasShieldPermissions
             ]);
     }
 
-
     public static function table(Table $table): Table
     {
         return $table
@@ -79,12 +59,14 @@ class ServiceResource extends Resource implements HasShieldPermissions
                 Tables\Columns\TextColumn::make('id')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('name')
+
+                Tables\Columns\TextColumn::make('bank_name')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('money')
-                ->money('vnd')
+                Tables\Columns\TextColumn::make('bank_number')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user_name')
                     ->sortable()
                     ->searchable(),
 
@@ -109,7 +91,7 @@ class ServiceResource extends Resource implements HasShieldPermissions
                 Tables\Actions\Action::make('block')->label('Khóa')
                     ->icon('heroicon-o-x')
                     ->hidden(fn ($record) => in_array($record->status, ['block']))
-                    ->action(function (Service $record) {
+                    ->action(function (Bank $record) {
 
                         if ($record->status == 'block') {
                             Notification::make()
@@ -147,13 +129,12 @@ class ServiceResource extends Resource implements HasShieldPermissions
         ];
     }
 
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListServices::route('/'),
-            'create' => Pages\CreateService::route('/create'),
-            'edit' => Pages\EditService::route('/{record}/edit'),
+            'index' => Pages\ListBanks::route('/'),
+            'create' => Pages\CreateBank::route('/create'),
+            'edit' => Pages\EditBank::route('/{record}/edit'),
         ];
     }
 }

@@ -11,18 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('banks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('member_id');
-            $table->foreignId('bank_id');
-            $table->integer('money');
-            $table
-                ->enum('type', ['deposit', 'withdrawals'])
-                ->default('deposit');
+            $table->string('bank_name');
+            $table->string('bank_number');
+            $table->string('user_name');
             $table
                 ->enum('status', ['active', 'pending', 'block'])
                 ->default('active');
-
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('banks');
     }
 };

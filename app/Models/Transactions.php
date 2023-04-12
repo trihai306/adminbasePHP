@@ -12,9 +12,16 @@ class Transactions extends Model
 
     protected $table = "transactions";
 
-    protected $fillable = ['member_id', 'money', 'type', 'status'];
+    protected $fillable = ['member_id', 'money', 'type', 'bank_id', 'status'];
 
     protected $searchableFields = ['*'];
 
-  
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'member_id', 'id');
+    }
 }

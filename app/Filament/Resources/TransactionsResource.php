@@ -44,6 +44,7 @@ class TransactionsResource extends Resource
                 Forms\Components\Grid::make(4)->schema([
                     Forms\Components\Card::make()->schema([
                         Forms\Components\TextInput::make('member_id')
+                            ->numeric()
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('money')
@@ -78,13 +79,27 @@ class TransactionsResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('member.name')
+                Tables\Columns\TextColumn::make('member_id')
+                    ->label('User id')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('User name')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('money')
+                ->money('vnd')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('bank.bank_name')
+                ->label('Bank name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('bank.bank_number')
+                ->label('Bank number')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\BadgeColumn::make('status')->enum([
@@ -106,7 +121,7 @@ class TransactionsResource extends Resource
             ->actions([
                 Tables\Actions\Action::make('duyet')->label('Duyệt')
                     ->icon('heroicon-o-check')
-                    ->hidden(fn($record) => in_array($record->status, ['active']))
+                    ->hidden(fn ($record) => in_array($record->status, ['active']))
                     ->action(function (Transactions $record) {
                         if ($record->status == 'active') {
                             Notification::make()
@@ -117,8 +132,8 @@ class TransactionsResource extends Resource
                             return;
                         }
                         if ($record->type == 'deposit') {
-                            $record->member->money += $record->money;
-                            $record->member->save();
+                            $record->user->money += $record->money;
+                            $record->user->save();
                         }
                         $record->status = 'active';
                         $record->save();
@@ -130,7 +145,7 @@ class TransactionsResource extends Resource
                     })->button()->color('success'),
                 Tables\Actions\Action::make('block')->label('Khóa')
                     ->icon('heroicon-o-x')
-                    ->hidden(fn($record) => in_array($record->status, ['block']))
+                    ->hidden(fn ($record) => in_array($record->status, ['block']))
                     ->action(function (Transactions $record) {
 
                         if ($record->status == 'block') {
@@ -143,8 +158,8 @@ class TransactionsResource extends Resource
                         }
                         if ($record->status == 'active') {
                             if ($record->type == 'deposit') {
-                                $record->member->money -= $record->money;
-                                $record->member->save();
+                                $record->user->money -= $record->money;
+                                $record->user->save();
                             }
                         }
                         $record->status = 'block';

@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Service extends Model
+class Bank extends Model
 {
     use HasFactory;
 
-    protected $table = "services";
+    protected $table = "banks";
 
-    protected $fillable = ['image','name', 'money', 'status'];
+    protected $fillable = ['bank_name','bank_number', 'user_name', 'status'];
 
     protected $searchableFields = ['*'];
 }

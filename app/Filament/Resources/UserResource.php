@@ -85,6 +85,7 @@ class UserResource extends Resource
                 TextColumn::make('id')->sortable()->label(trans('filament-user::user.resource.id')),
                 TextColumn::make('name')->sortable()->searchable()->label(trans('filament-user::user.resource.name')),
                 TextColumn::make('email')->sortable()->searchable()->label(trans('filament-user::user.resource.email')),
+                TextColumn::make('money')->sortable()->searchable()->label('Money'),
                 BooleanColumn::make('email_verified_at')->sortable()->searchable()->label(trans('filament-user::user.resource.email_verified_at')),
                 Tables\Columns\TextColumn::make('created_at')->label(trans('filament-user::user.resource.created_at'))
                     ->dateTime('M j, Y')->sortable(),

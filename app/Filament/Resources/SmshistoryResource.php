@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
 class SmshistoryResource extends Resource
 {
     protected static ?string $model = smsHistory::class;
@@ -46,93 +47,61 @@ class SmshistoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-        ->columns([
-            Tables\Columns\TextColumn::make('id')
-                ->sortable()
-                ->searchable(),
-            Tables\Columns\TextColumn::make('phone')
-                ->sortable()
-                ->searchable(),
-            Tables\Columns\TextColumn::make('code')
-                ->sortable()
-                ->searchable(),
+            ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('service.name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('code')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('sms')
-                ->sortable()
-                ->searchable(),
-            Tables\Columns\BadgeColumn::make('status')->enum([
-                'active' => 'Active',
-                'pending' => 'Pending',
-                'block' => 'Blocked',
-            ])->colors([
-                'success' => 'active',
-                'warning' => 'pending',
-                'danger' => 'block',
-            ])->searchable()->sortable(),
-            Tables\Columns\TextColumn::make('created_at')
-                ->sortable()
-                ->searchable(),
-        ])
-        ->filters([
-            //
-        ])
-        ->actions([
-            Tables\Actions\Action::make('duyet')->label('Duyệt')
-            ->icon('heroicon-o-check')
-            ->hidden(fn($record) => in_array($record->status, ['active']))
-            ->action(function (smsHistory $record) {
-                if ($record->status == 'active') {
-                    Notification::make()
-                        ->title('Cập nhập thất bại')
-                        ->danger()
-                        ->body('Giao dịch đã được duyệt')
-                        ->send();
-                    return;
-                }
-                if ($record->type == 'deposit') {
-                    $record->member->money += $record->money;
-                    $record->member->save();
-                }
-                $record->status = 'active';
-                $record->save();
-                Notification::make()
-                    ->title('Cập nhập thành công')
-                    ->success()
-                    ->body('Giao dịch đã được duyệt')
-                    ->send();
-            })->button()->color('success'),
-            Tables\Actions\Action::make('block')->label('Khóa')
-                ->icon('heroicon-o-x')
-                ->hidden(fn ($record) => in_array($record->status, ['block']))
-                ->action(function (smsHistory $record) {
-
-                    if ($record->status == 'block') {
-                        Notification::make()
-                            ->title('Cập nhập thất bại')
-                            ->danger()
-                            ->body('Service đã bị khóa')
-                            ->send();
-                        return;
-                    }
-                    if ($record->status == 'active') {
-                        if ($record->type == 'deposit') {
-                            $record->member->money -= $record->money;
-                            $record->member->save();
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\BadgeColumn::make('status')->enum([
+                    'active' => 'Active',
+                    'pending' => 'Pending',
+                    'block' => 'Blocked',
+                ])->colors([
+                    'success' => 'active',
+                    'warning' => 'pending',
+                    'danger' => 'block',
+                ])->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->searchable(),
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\Action::make('hoan')->label('Huỷ')
+                    ->icon('heroicon-o-check')
+                    
+                    ->hidden(fn ($record) => in_array($record->status, ['active', 'block']))
+                    ->action(function (smsHistory $record) {
+                        if ($record->status == 'pending') {
+                            $record->user->money += $record->money;
+                            $record->user->save();
                         }
-                    }
-                    $record->status = 'block';
-                    $record->save();
-                    Notification::make()
-                        ->title('Cập nhập thành công')
-                        ->success()
-                        ->body('Service đã bị khóa')
-                        ->send();
-                })->button()->color('danger'),
+                        $record->status = 'block';
+                        $record->save();
+                        Notification::make()
+                            ->title('Cập nhập thành công')
+                            ->success()
+                            ->body('Giao dịch đã được hoàn trả!')
+                            ->send();
+                    })->color('warning'),
 
-        ])
-        ->bulkActions([
-            Tables\Actions\DeleteBulkAction::make(),
-        ]);
-      
+            ])
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]);
     }
 
     public static function canEdit(Model $record): bool
@@ -145,7 +114,7 @@ class SmshistoryResource extends Resource
         return false; // TODO: Change the autogenerated stub
     }
 
-    
+
     public static function getRelations(): array
     {
         return [
@@ -154,7 +123,7 @@ class SmshistoryResource extends Resource
     }
 
 
-    
+
     public static function getPages(): array
     {
         return [
@@ -162,5 +131,5 @@ class SmshistoryResource extends Resource
             'create' => Pages\CreateSmshistory::route('/create'),
             'edit' => Pages\EditSmshistory::route('/{record}/edit'),
         ];
-    }    
+    }
 }

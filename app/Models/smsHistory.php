@@ -14,4 +14,9 @@ class smsHistory extends Model
     protected $fillable = ['service_id', 'phone', 'code', 'status', 'sms'];
 
     protected $searchableFields = ['*'];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

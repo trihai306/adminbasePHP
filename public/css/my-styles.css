@@ -5,3 +5,49 @@
     margin-top: 20px;
     border-radius: 10px;
 }
+.select-banking {
+    color: #000;
+    font-family:system-ui;
+    outline: none;
+}
+.select-banking:hover {
+    outline: none;
+}
+.select-banking:focus {
+    outline: none;
+}
+.input-warning-custom {
+    border-radius: 6px !important;
+    color: #292929 !important;
+    border: solid 1px rgba(235, 177, 18, 0.562) !important;
+}
+.container-grid-service {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 5px;
+}
+.item-service {
+    padding: 10px 8px;
+    background-color: rgba(236, 234, 217, 0.685);
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content:flex-start;
+    align-items: center;
+    color: #292929;
+    border-radius: 5px;
+    flex-wrap: wrap;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border: solid 1px rgba(85, 82, 82, 0.247);
+    cursor: pointer;
+}
+.item-service > img {
+    max-width: 30px;
+}
+.item-service > h2 {
+    font-weight: 600;
+    font-size: 13px;
+}
+.item-service > h3 {
+    color: orangered;font-weight: 500;font-size: 13px;
+}
