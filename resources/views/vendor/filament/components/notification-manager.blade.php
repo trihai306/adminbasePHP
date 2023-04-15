@@ -1,3 +1,4 @@
 @php
-    /** @deprecated */
+/** @deprecated */
+
 @endphp

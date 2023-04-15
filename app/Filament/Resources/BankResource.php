@@ -18,7 +18,27 @@ class BankResource extends Resource
 {
     protected static ?string $model = Bank::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?int $navigationSort = 9;
+
+    protected static ?string $navigationIcon = 'heroicon-o-check-circle';
+
+    protected static function getNavigationGroup(): ?string
+    {
+        return config('filament-user.group');
+    }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+            'publish'
+        ];
+    }
 
     public static function form(Form $form): Form
     {

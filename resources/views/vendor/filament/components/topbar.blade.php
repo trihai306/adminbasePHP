@@ -28,12 +28,13 @@ $logoutItem = $items['logout'] ?? null;
             <div class="flex items-center justify-between flex-1">
                 <x-filament::layouts.app.topbar.breadcrumbs :breadcrumbs="$breadcrumbs" />
 
-                <select class="select select-warning w-13 dark:bg-gray-800">
+                <select class="text-gray-900 block w-15 transition duration-75 rounded-lg shadow-sm outline-none focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500 disabled:opacity-70 dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 border-gray-300 dark:border-gray-600">
 
                     <option>VN</option>
                     <option>EN</option>
 
                 </select>
+
 
                 @livewire('filament.core.global-search')
 
@@ -43,19 +44,20 @@ $logoutItem = $items['logout'] ?? null;
             </div>
         </div>
         <div class="container--custom--header w-full flex flex-row gap-8 items-center justify-center py-3 px-2 sm:px-4 md:px-6 lg:px-8 bg-white dark:bg-gray-800 dark:border-gray-700">
-            <marquee class="uppercase" style="color: #ffc30e">Chúc quý khách hàng một ngày vui vẻ</marquee>
+            <marquee class="uppercase w-full " style="color: #ffc30e; margin-right: 50px">Chúc quý khách hàng một ngày vui vẻ</marquee>
+            <div class="flex gap-3 justify-end">
+                <a href="#" class="btn btn-primary">support 24/7</a>
+                <!-- The button to open modal -->
+                <label for="my-modal" class="btn text-white">topup wallet</label>
 
-            <a href="#" class="btn btn-primary">support 24/7</a>
-            <!-- The button to open modal -->
-            <label for="my-modal" class="btn text-white">topup wallet</label>
+                <!-- Put this part before </body> tag -->
+                <input type="checkbox" id="my-modal" class="modal-toggle" />
+                <div class="modal">
+                    <div class="modal-box dark:bg-gray-800">
+                        <h3 class="font-bold text-lg">Congratulations random Internet user!</h3>
 
-            <!-- Put this part before </body> tag -->
-            <input type="checkbox" id="my-modal" class="modal-toggle" />
-            <div class="modal">
-                <div class="modal-box dark:bg-gray-800">
-                    <h3 class="font-bold text-lg">Congratulations random Internet user!</h3>
-
-                    <livewire:topup />
+                        <livewire:topup />
+                    </div>
                 </div>
             </div>
 

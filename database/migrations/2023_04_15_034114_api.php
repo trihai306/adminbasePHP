@@ -11,17 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sms_histories', function (Blueprint $table) {
+        Schema::create('api', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('member_id');
-            $table->foreignId('service_id');
-            $table->string('phone');
-            $table->string('code');
-            $table
-                ->enum('status', ['active', 'pending', 'block'])
-                ->default('active');
-            $table->string('sms');
-
+            $table->string('email');
+            $table->string('password');
+            $table->longText('token');
             $table->timestamps();
         });
     }
@@ -31,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sms_histories');
+        Schema::dropIfExists('api');
     }
 };

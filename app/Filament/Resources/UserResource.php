@@ -22,7 +22,7 @@ class UserResource extends Resource
 
     protected static ?int $navigationSort = 9;
 
-    protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
+    protected static ?string $navigationIcon = 'heroicon-s-users';
 
     protected static function getNavigationLabel(): string
     {
@@ -54,6 +54,7 @@ class UserResource extends Resource
         $rows = [
             TextInput::make('name')->required()->label(trans('filament-user::user.resource.name')),
             TextInput::make('email')->email()->required()->label(trans('filament-user::user.resource.email')),
+            TextInput::make('money')->required()->label('money'),
             Forms\Components\TextInput::make('password')->label(trans('filament-user::user.resource.password'))
                 ->password()
                 ->maxLength(255)
@@ -61,12 +62,11 @@ class UserResource extends Resource
                     if(!empty($state)){
                         return Hash::make($state);
                     }
-
                     $user = User::find($form->getColumns());
                     if($user){
                         return $user->password;
                     }
-            }),
+            }), 
         ];
 
         if(config('filament-user.shield')){
@@ -85,7 +85,7 @@ class UserResource extends Resource
                 TextColumn::make('id')->sortable()->label(trans('filament-user::user.resource.id')),
                 TextColumn::make('name')->sortable()->searchable()->label(trans('filament-user::user.resource.name')),
                 TextColumn::make('email')->sortable()->searchable()->label(trans('filament-user::user.resource.email')),
-                TextColumn::make('money')->sortable()->searchable()->label('Money'),
+                TextColumn::make('money')->sortable()->searchable()->label('Money')  ->money('vnd'),
                 BooleanColumn::make('email_verified_at')->sortable()->searchable()->label(trans('filament-user::user.resource.email_verified_at')),
                 Tables\Columns\TextColumn::make('created_at')->label(trans('filament-user::user.resource.created_at'))
                     ->dateTime('M j, Y')->sortable(),
